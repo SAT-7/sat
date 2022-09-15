@@ -32,6 +32,6 @@ Which will attempt to host Flask on port 5001 instead.
 To get into the server from your local machine, write the following in the terminal:
 
 `ssh sat-admin@157.230.50.131`
-and enter the password `P@$$word!`
+and enter the password `P@$$word12345!`
 
 One could also set up a GUI program to do this, but this is way more fun!
