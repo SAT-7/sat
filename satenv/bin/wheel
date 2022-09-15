@@ -1,4 +1,4 @@
-#!/home/sat-admin/environments/flask_env/bin/python3
+#!/home/sat-admin/sat/satenv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
