@@ -8,6 +8,7 @@
 Clone the SAT-7/sat repository to your local machine:
 
 `git clone git@github.com:SAT-7/sat.git`
+`git clone https://github.com:SAT-7/sat.git`
 
 You should now have all files in the 'sat' directory, within whatever directory your terminal was in when you called this command.
 
