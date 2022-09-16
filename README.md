@@ -7,7 +7,9 @@
 
 Clone the SAT-7/sat repository to your local machine:
 
-`git clone git@github.com:SAT-7/sat.git`
+`git clone git@github.com:SAT-7/sat.git` or
+
+`git clone https://github.com:SAT-7/sat.git`
 
 You should now have all files in the 'sat' directory, within whatever directory your terminal was in when you called this command.
 
@@ -17,7 +19,15 @@ You should now have all files in the 'sat' directory, within whatever directory 
 
 `flask run`
 
-Which should automatically open a web browser and show you the Flask application.
+Which should automatically open a web browser and show you the Flask application at `localhost:5000`
+
+### Dev/Debug Mode
+
+For the code to automatically update when changes are made in your browser, add the Debug flag to Flask:
+
+`flask --debug run`
+
+If you don't see changes immediately, reload the page!
 
 ### Troubleshooting
 
