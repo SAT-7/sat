@@ -32,6 +32,7 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        
   Test-Local:
     runs-on: ubuntu-latest
     environment:
@@ -60,6 +61,6 @@ jobs:
         if [ -d tests ] || [ -d test ]; then FLASK_ENV=${{secrets.FLASK_ENV}} python -m pytest; fi
     - name: Test application
       run: |
-        FLASK_ENV=${{secrets.FLASK_ENV}} python main.py &
+        FLASK_ENV=${{secrets.FLASK_ENV}} python sat.py &
         sleep 10
-        curl http://127.0.0.1:5000/
+        curl http://127.0.0.1:5001/
