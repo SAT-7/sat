@@ -1,7 +1,7 @@
 # SAT
 ### Sustainability Auditing Tool
 
-# DEVELOPMENT GUIDE
+# LOCAL DEVELOPMENT GUIDE
 
 ## Clone the GitHub Repo
 
@@ -36,12 +36,3 @@ If this returns an error that port 5000 is already in use (some other frameworks
 `flask run -p 5001`
 
 Which will attempt to host Flask on port 5001 instead.
-
-## SSH into the Server
-
-To get into the server from your local machine, write the following in the terminal:
-
-`ssh sat-admin@157.230.50.131`
-and enter the password `P@$$word12345!`
-
-One could also set up a GUI program to do this, but this is way more fun!
