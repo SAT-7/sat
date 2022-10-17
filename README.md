@@ -35,7 +35,7 @@ If the branch you want to work on already exists, do this:
 
 ## Make changes, watch things change
 
-When you make changes in your code editor, you should be able to see those changes after saving the file in the browser.
+When you make changes in your code editor, you should be able to see those changes in the browser after saving the file you've altered.
 
 ## Push your changes to the Repo
 
