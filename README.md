@@ -15,7 +15,11 @@ You should now have all files in the 'sat' directory, within whatever directory 
 
 ## Run the Flask App Locally
 
-`cd` into the `sat` directory within your terminal, then run:
+`cd` into the `sat` directory within your terminal, then get into your virtual environment to make running Python easy and cool:
+
+`source env/bin/activate`
+
+Once you've done that, you can run Flask without worrying about having the right Python packages and all that nonsense:
 
 `flask run`
 
