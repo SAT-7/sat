@@ -49,6 +49,12 @@ From within your `sat` directory, run:
 
 If you're feeling REALLY good about what you did, submit a Pull Request and we'll pull your changes into `main`!
 
+## Deployment Situation
+
+When your changes get pulled into `main` - they're deployed to our Heroku app at [https://sustainabilityauditingtool.herokuapp.com](https://sustainabilityauditingtool.herokuapp.com).
+
+As we get closer to the end of the project, we'll transition to our website/domain/whathaveyou.
+
 ### Troubleshooting
 
 If this returns an error that port 5000 is already in use (some other frameworks like Docker use this port by default also), run something like:
