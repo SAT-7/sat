@@ -1,6 +1,6 @@
 # SAT
 ### Sustainability Auditing Tool
-test
+
 # LOCAL DEVELOPMENT GUIDE
 
 ## Clone the GitHub Repo
