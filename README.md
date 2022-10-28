@@ -1,6 +1,19 @@
 # SAT
 ### Sustainability Auditing Tool
 
+## OAUTH TEST SERVER BRANCH
+### This Branch is NOT FOR PRODUCTION, only for testing OAUTH Issues!!!!
+
+# FLASK DANCE
+
+## First set up Heroku App
+
+Ours is at `http://sat-oauth-test.herokuapp.com` and under the same account as our main Heroku App.
+
+## Register with GitHub
+
+Visit [https://github.com/settings/applications/new](https://github.com/settings/applications/new) to register the application on GitHub. Right now we have the test application registered with GitHub and on Heroku with the client secret and id as variables set correctly.
+
 # LOCAL DEVELOPMENT GUIDE
 
 ## Clone the GitHub Repo
