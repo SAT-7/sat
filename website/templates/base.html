@@ -19,7 +19,8 @@
     <title>{% block title %}Home{% endblock %}</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <body style="background-color: #0d6efd;">
+    <!--<nav class="navbar navbar-expand-lg navbar-light bg-light">
       <button
         class="navbar-toggler"
         type="button"
@@ -29,12 +30,26 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbar">
-        <div class="navbar-nav">
-          <a class="nav-item nav-link" id="models" href="/models">Models</a>
-          <a class="nav-item nav-link" id="about" href="/about">About</a>
+        <div <ul class="nav navbar-nav ml-auto"></ul>
+          <a class="nav-item nav-link" id="home" href="/">SAT Home</a>
+          <!--<li class="nav-item"><a class="nav-item nav-link" id="logout" href="/logout">Logout</a></li>--> 
         </div>
       </div>
     </nav>
+    <div class="col-lg-4">
+      <div class="row">
+        <button class="btn btn-lg btn-outline-light" id="button-search" type="button">Save Model</button>
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="btn btn-lg btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" 
+      aria-expanded="false">Compare Models</button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Model 1</a>
+        <a class="dropdown-item" href="#">Model 2</a>
+        <a class="dropdown-item" href="#">Model 3</a>
+      </div>
+    </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %} {% if
     messages %} {% for category, message in messages %} {% if category ==
@@ -60,10 +75,5 @@
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
       crossorigin="anonymous"
     ></script>
-
-    <!--<script
-      type="text/javascript"
-      src="{{ url_for('static', filename='index.js') }}"
-    ></script>-->
   </body>
 </html>
