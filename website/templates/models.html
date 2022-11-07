@@ -1,8 +1,36 @@
-{% extends "base.html" %} {% block title %}Models{% endblock %} {% block content
-%}
+{% extends "base.html" %} {% block title %}Models{% endblock %} {% block content %}
+<script>
+    function changemodel(x) {
+      var mod = document.getElementById("model");
+      switch(x) {
+          case 1:
+          mod.src = "{{ url_for('static', filename='models/osdcCoOp.html') }}";
+          mod.title = "Example Model";
+          break;
+
+          case 2:
+          mod.src = "{{ url_for('static', filename='models/nogood.html') }}";
+          mod.title = "No Good";
+          break;
+          
+          case 3:
+          mod.src = "{{ url_for('static', filename='models/Flocking.html') }}";
+          mod.title = "Flocking";
+          break;
+      }
+    }
+</script>
+
+<select name="models" class="modelselect">Select Model
+    <option onclick ="changemodel(1)">Example</option>
+    <option onclick ="changemodel(2)">NoGood</option>
+    <option onclick ="changemodel(3)">Flocking</option>
+</select>
+
 <h1 align="center">Models</h1>
+
 <div class="model">
-    <iframe src="{{ url_for('static', filename='models/osdcCoOp.html') }}" title="Example Model" width="100%" height="100%"></iframe>
+    <iframe src="{{ url_for('static', filename='models/osdcCoOp.html') }}" title="Example Model" id = "model" width="100%" height="100%"></iframe>
 </div>
 
 {% endblock %}

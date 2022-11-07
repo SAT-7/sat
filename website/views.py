@@ -11,6 +11,9 @@ def home():
 def models():
     return render_template("models.html")
 
+@views.route('/compare')
+def compare():
+    return render_template("compare.html")
 
 @views.route('/about')
 def about():

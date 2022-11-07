@@ -2,3 +2,43 @@
     position:relative;
     height:1000px;
 }
+
+.compare {
+    position:relative;
+    height:1000px;
+    width:1500px;
+    left:-210px;
+}
+
+#model1 {
+    position:relative;
+    height:750px;
+    width:700px;
+}
+
+#model2 {
+    position:absolute;
+    right:0px;
+    height:750px;
+    width:700px;
+}
+
+.selectholder {
+    position:relative;
+    border: 1px solid red;
+}
+
+.modelselect {
+    position:relative;
+    left:-210px;;
+}
+
+#select2 {
+    position:absolute;
+    right:0px;
+}
+
+#label {
+    position:absolute;
+    right:95px;
+}
