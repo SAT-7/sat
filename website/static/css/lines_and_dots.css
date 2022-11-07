@@ -1,12 +1,8 @@
 /*GitHub OAuth page*/
 @charset "UTF-8";
 
- body {
-  background-color: #052080;
-}
-
 #loginbox {
-  margin-top: 100px;
+  margin-top: 0px;
 }
 
 #loginbox > div:first-child {        
@@ -28,7 +24,7 @@
 
 .panel-body {
   padding-top: 30px;
-  background-color:  navy;
+  background-color:  #ced4da;
 }
 
 #particles {
