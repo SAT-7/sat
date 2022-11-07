@@ -7,7 +7,11 @@ views = Blueprint('views', __name__)
 def home():
   return render_template("homepage.html") 
 
-@views.route('/login') 
+@views.route('/home')
+def homepage():
+  return render_template("homepage.html") 
+
+@views.route('/connect') 
 def github1():
     return render_template("githubauth.html") 
 
