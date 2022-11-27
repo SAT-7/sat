@@ -16,6 +16,6 @@ def models():
 def about():
     return render_template("about.html")
 
-@views.route('/login')
+@views.route('/login/github/authorized')
 def login():
     return render_template("models.html")
