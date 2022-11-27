@@ -149,6 +149,8 @@
 
     <!-- This can be used to insert NetLogo code into this page -->
     <script type="text/nlogo" id="nlogo-code" data-filename="nogood.nlogo">
+
+extensions [import-a fetch]
       
 globals [
   ;num_agents
@@ -272,6 +274,11 @@ to update-world
     [ set color (list 0 0 (engag * 255)) ] ]
 
   set repo_size (repo_size + contrib_size)
+
+  fetch-url-github
+    clear-all
+    fetch:url-async "https://api.github.com/repos/OWNER/REPO/collaborators" show
+  end
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
@@ -310,7 +317,7 @@ num_agents
 num_agents
 0
 100
-54
+fetch-url-github
 1
 1
 NIL
