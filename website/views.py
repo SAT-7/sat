@@ -3,9 +3,9 @@ import json
 
 views = Blueprint('views', __name__)
 
-@views.route('/')
-def home():
-    return render_template("models.html")
+#@views.route('/')
+#def home():
+#    return render_template("models.html")
 
 @views.route('/models')
 def models():
