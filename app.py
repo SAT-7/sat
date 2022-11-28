@@ -17,4 +17,6 @@ def index():
     resp = github.get("/user")
     assert resp.ok
     #return "You are @{login} on GitHub".format(login=resp.json()["login"])
-    return render_template("jsontest.html")
+    #return render_template("jsontest.html")
+    return resp.json()
+
