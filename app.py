@@ -18,5 +18,5 @@ def index():
     assert resp.ok
     #return "You are @{login} on GitHub".format(login=resp.json()["login"])
     #return render_template("jsontest.html")
-    return resp.json()
+    return "{response}".format(response=resp.json())
 
