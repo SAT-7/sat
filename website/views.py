@@ -19,3 +19,7 @@ def about():
 @views.route('/user')
 def user():
     return render_template("models.html")
+
+@views.route('/login/github')
+def github():
+    return render_template("models.html")
