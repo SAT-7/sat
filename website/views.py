@@ -18,7 +18,3 @@ def homepage():
 @views.route('/about')
 def about():
     return render_template("base.html")
-
-@views.route('/models')
-def models():
-   return render_template("models.html")
