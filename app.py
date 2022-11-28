@@ -37,6 +37,12 @@ def connect():
     assert resp.ok
     cache.set("gh_json",resp.json())
     #return "You are @{login} on GitHub".format(login=resp.json()["login"])
+    entry = 0
+    for org in resp:
+        members = github.get("/orgs/{org['login']}/members")
+        print(members)
+        cache.set("{mem_count[entry]}",len(members.json()))
+        entry += 1
     return render_template("githubauth.html",gh_json=resp.json())
 
 
