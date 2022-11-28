@@ -19,7 +19,8 @@ def index():
     assert resp.ok
     #return "You are @{login} on GitHub".format(login=resp.json()["login"])
     #return "{response}".format(response=resp.json())
-    return render_template("jsontest.html", gh_json=resp.json())
+    #return render_template("jsontest.html", gh_json=resp.json())
+    return render_template("jsontest.html")
     
 @views.route('/models')
 def models():
