@@ -20,6 +20,6 @@ def about():
 def user():
     return render_template("models.html")
 
-@views.route('/login/github')
-def github():
+@views.route('/login')
+def login():
     return render_template("models.html")
