@@ -11,7 +11,6 @@ views = Blueprint('views', __name__)
 def models():
     return render_template("models.html")
 
-
 @views.route('/about')
 def about():
     return render_template("about.html")

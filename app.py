@@ -1,5 +1,5 @@
 import os
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, render_template
 from flask_dance.contrib.github import make_github_blueprint, github
 
 app = Flask(__name__)
@@ -16,4 +16,5 @@ def index():
         return redirect(url_for("github.login"))
     resp = github.get("/user")
     assert resp.ok
-    return "You are @{login} on GitHub".format(login=resp.json()["login"])
+    #return "You are @{login} on GitHub".format(login=resp.json()["login"])
+    return render_template("jsontest.html", gh_json=resp.json())
