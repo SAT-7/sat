@@ -16,10 +16,6 @@ def models():
 def about():
     return render_template("about.html")
 
-@views.route('/user')
-def user():
-    return render_template("models.html")
-
 @views.route('/login')
 def login():
     return render_template("models.html")
