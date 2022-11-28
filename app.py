@@ -16,5 +16,5 @@ def index():
         return redirect(url_for("github.login"))
     resp = github.get("/user")
     assert resp.ok
-    return "You are @{login} on GitHub".format(login=resp.json()["login"])
-    #return render_template("jsontest.html", gh_json=resp.json())
+    #return "You are @{login} on GitHub".format(login=resp.json()["login"])
+    return render_template("jsontest.html")
