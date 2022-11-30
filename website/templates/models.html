@@ -1,8 +1,35 @@
-{% extends "base.html" %} {% block title %}Models{% endblock %} {% block content
+{% extends "connected.html" %} {% block title %}Models{% endblock %} {% block content
 %}
-<h1 align="center">Models</h1>
-<div class="model">
-    <iframe src="{{ url_for('static', filename='models/osdcCoOp.html') }}" title="Example Model" width="100%" height="100%"></iframe>
+<script>
+   function getIframeContent(frameID) {
+      var frameObj = document.getElementById(frameID);
+      var frameContent = frameObj.contentWindow.document.body.innerHTML;
+      var element = document.getElementById("save");
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(frameContent));
+   }
+</script>
+<br><br>
+<div style="position:relative; margin-top:4em">
+   <!-- Models-->
+   <div class="row">
+      <div class="col-lg-4">
+         <a id="save" onclick="getIframeContent('model');" download="model.html"><button class="btn btn-lg btn-outline-light" id="button-save" type="button">Save Model</button></a>
+      </div>
+   </div>
+   <div class="dropdown">
+      <button class="btn btn-lg btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" 
+      aria-expanded="false">Compare Models</button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+         <a class="dropdown-item" href="#">Model 1</a>
+         <a class="dropdown-item" href="#">Model 2</a>
+         <a class="dropdown-item" href="#">Model 3</a>
+      </div>
+   </div>
+   <div class="model">
+      <iframe src="{{ url_for('static', filename='models/osdcCoOp.html') }}" id="model" name="model" width="100%" height="100%" ></iframe>
+   </div>
 </div>
 
 {% endblock %}
+
+
