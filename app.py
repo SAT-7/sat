@@ -12,6 +12,8 @@ config = {
     "CACHE_DEFAULT_TIMEOUT": 300
 }
 
+app = create_app()
+
 app.config.from_mapping(config)
 cache = Cache(app)
 
@@ -70,8 +72,6 @@ def models():
     with open('website/static/models/currentmodel.html', 'w') as file:
         file.writelines(lines)
     return render_template("models.html",gh_json=cache.get("gh_json"))
-
-app = create_app()
     
 if __name__ == "__main__":
     app.run(debug=True)
