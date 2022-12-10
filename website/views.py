@@ -5,9 +5,6 @@ from flask import Blueprint, render_template, Flask, redirect, url_for
 from flask_dance.contrib.github import make_github_blueprint, github
 from flask_caching import Cache
 
-dotenv_path = join(dirname(__file__), '.env')
-load_dotenv(dotenv_path)
-
 config = {
     "DEBUG": True,
     "CACHE_TYPE": "FileSystemCache",
