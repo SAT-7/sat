@@ -16,7 +16,7 @@ def models():
     horizon = 5.5
     max_noise = 55.0
     sites = ['anatomyofamodel.html','osdcCoOpStripped.html']
-    with open('website/static/models/'+sites[1],'r') as file:
+    with open('website/static/models/'+sites[0],'r') as file:
         lines = file.readlines()
     #print(lines)
     count = 0
@@ -45,7 +45,3 @@ def github1():
 @views.route('/about')
 def about():
     return render_template("base.html")
-
-@views.route('/models')
-def models():
-   return render_template("models.html")
