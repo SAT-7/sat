@@ -12,16 +12,13 @@ def models():
     testval = 55
     with open('website/static/models/anatomyofamodel.html','r') as file:
         lines = file.readlines()
-    print(lines)
+    #print(lines)
     count = 0
     for line in lines:
-        if line.__contains__(str(54)):
-            print(str(line) + str(count))
-            if line[0] == '5' and line[1] == '4':
-                print("fifty four")
-                lines[count] = str(55)+'\n'
+        if line.__contains__("-num_agents-"):
+            lines[count] = str(testval)+'\n'
         count += 1
-    with open('website/static/models/anatomyofamodel.html', 'w') as file:
+    with open('website/static/models/currentmodel.html', 'w') as file:
         file.writelines(lines)
     return render_template("models.html")
 
