@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template
 import os
 from os.path import join, dirname
-from dotenv import load_dotenv
 from flask import Blueprint, render_template, Flask, redirect, url_for
 from flask_dance.contrib.github import make_github_blueprint, github
 from flask_caching import Cache
