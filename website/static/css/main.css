@@ -12,3 +12,13 @@
     background-color: navy;
     color: #ffffff;
 }
+
+#OREL_logo{
+    /* To play around, change this to absolute */
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    z-index: 1;
+    padding: 0px;
+    margin: 0px;
+}
