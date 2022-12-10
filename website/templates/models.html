@@ -13,24 +13,22 @@
    <!-- Models-->
    <div class="row">
       <div class="col-lg-4">
-         <a id="save" onclick="getIframeContent('model');" download="model.html"><button class="btn btn-lg btn-outline-light" id="button-save" type="button">Save Model</button></a>
+         <a id="save" onclick="getIframeContent('model');" download="model.html"><button class="btn btn-lg btn-outline-light" id="button-search" type="button">Save Model</button></a>
       </div>
    </div>
-   <div class="dropdown row">
-      <div class="col-lg-4">
-         <button class="btn btn-lg btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" 
-         aria-expanded="false">Compare Models</button>
-      </div>
-      <div class="col-lg-4">
-         <label for="model-comparison" class="text-white">Select a Model</label>
-         <select id="model-comparison">
-            <option value="{{ url_for('static', filename='models/osdcCoOp.html') }}">Cooperation</option>
-            <option value="{{ url_for('static', filename='models/nogood.html') }}">Oversimplification</option>
-         </select>
+   <div class="dropdown">
+      <button class="btn btn-lg btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" 
+      aria-expanded="false">Compare Models</button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+         <a class="dropdown-item" href="#">Model 1</a>
+         <a class="dropdown-item" href="#">Model 2</a>
+         <a class="dropdown-item" href="#">Model 3</a>
       </div>
    </div>
    <div class="model">
-      <iframe src="{{ url_for('static', filename='models/currentmodel.html') }}" id="model" name="model" width="100%" height="100%" ></iframe>
+      {{"{chosenorg}".format(chosenorg=request.args.get('org'))}}<br>
+      <iframe src="{{ url_for('static', filename='models/anatomyofamodel.html') }}" id="model" name="model" width="100%" height="100%" ></iframe>
+      {{"Full JSON: {gh_json}".format(gh_json=gh_json)}}
    </div>
 </div>
 
