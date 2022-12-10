@@ -1,0 +1,154 @@
+/*
+ * Styles for that sweet loading spinner with turtles
+ */
+
+ #loading-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .spinner-img {
+    height: auto;
+    width: 10px;
+    z-index: 11;
+    position: absolute;
+  }
+  
+  #spinner {
+    height: 50px;
+    width:  50px;
+    transform-origin: 60% 60%;
+    animation-name: spin;
+    animation-duration: 1.75s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    animation-delay: 0s;
+    animation-play-state: running;
+    z-index: 11;
+  }
+  
+  .turtle1 {
+    top: 29%;
+    left: 29%;
+  }
+  
+  .turtle2 {
+    top: 20%;
+    left: 50%;
+  }
+  
+  .turtle3 {
+    top: 29%;
+    left: 71%;
+  }
+  
+  .turtle4 {
+    top:  50%;
+    left: 80%;
+  }
+  
+  .turtle5 {
+    top:  71%;
+    left: 71%;
+  }
+  
+  .turtle6 {
+    top:  80%;
+    left: 50%;
+  }
+  
+  .turtle7 {
+    top:  71%;
+    left: 29%;
+  }
+  
+  .turtle8 {
+    top: 50%;
+    left: 20%;
+  }
+  
+  @keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+  }
+  </style>
+      <style>/*
+   * styles to use with the "error alert" component
+   */
+  
+  .dark-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+    z-index: 3500;
+    top: 0;
+    left: 0;
+    position: fixed;
+  }
+  
+  .alert-overlay {
+    display: flex;
+    align-items: center;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .alert-dialog {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: whitesmoke;
+    border: 2px black solid;
+    border-radius: 20px;
+    opacity: 1;
+    overflow: hidden;
+    width: fit-content;
+    min-width: 450px;
+    max-width: 1000px;
+  }
+  
+  #alert-title {
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  
+  .alert-text {
+    text-align: left;
+    padding: 10px;
+    font-size: 16px;
+    overflow: auto;
+  }
+  
+  .standalone-text {
+    color: #555555;
+    display: none;
+    text-align: center;
+  }
+  
+  #alert-dismiss-container {
+    border-top: 1px solid lightgray;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .alert-button {
+    font-size: 14px;
+    height: 25px;
+    border-radius: 3px;
+    border: 1px solid lightgray;
+    background-color: #e6e6e6;
+    white-space: nowrap;
+    margin: 0 10px;
+  }
+  
+  .alert-button:active {
+    background-color: #eeeeee;
+  }
