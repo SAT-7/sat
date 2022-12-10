@@ -33,6 +33,7 @@
     HTML BODY
 
   -->
+
   <body style="margin: 0px;">
 
     <!--
@@ -145,130 +146,234 @@
     
     <script type="text/javascript" src="anatomy/js/21netlogo.js"></script>
 
-    <!-- This can be used to insert NetLogo code into this page -->
-    <script type="text/nlogo" id="nlogo-code" data-filename="nogood.nlogo">
+<!-- This can be used to insert NetLogo code into this page -->
+<script type="text/nlogo" id="nlogo-code" data-filename="osdcPYcooperation.nlogo">
 globals [
-  ;num_agents
-  churn_rate
-  repo_size
-  unit
-  horizon
+;num_agents
+num_cooperating
+;uncertainty
+;reevaluate_rate
+churn_rate
+repo_size
+;unit
+;horizon
+dynamics_of_coop
+fraction_cooperating
+;max_noise
 ]
 
 breed [ members member ]
 
 members-own [
-  qual
-  quan
-  engag
-  contrib_size
-  role
-  other_agents
+member_name
+qual
+quan
+engag
+contrib_size
+role
+other_agents
+utility
+benefit_rate
+personal_cost
+cooperating?
+local_num_cooperating
+horizon_length
+success_prob
+f_crit
 ]
 
 to setup
-  ca
+ca
 
-  set unit 10 ; amount we count repo size by
-  set horizon 1;
+;set unit 1 ; amount we count repo size by
+;set horizon 2;
+let names [ "Abigail" "Adelard" "Astrid" "Alvin" "Arthur" "Annie" "Axel" "Adam" "Alf" "Alice" "Ansel" "Adelaide" "Arturo" "Amabalis" "Anais" "Angela" "Adolfo"
+            "Beatrix" "Bernice" "Bob" "Barbie" "Baxter" "Bigby" "Brian" "Bullet" "Budgie" "Barbara" "Baron" "Byron" "Billy" "Beanie" "Bootsy" "Bobo" "Bono"
+            "Cedric" "Christina" "Christian" "Christopher" "Christie" "Copernicus" "Calvin" "Calder" "Cecil" "Colin" "Cady" "Caitlin" "Caligula" "Charles" "Crissy" "Cinder"
+            "Debra" "Delores" "Dudley" "Dilbert" "Dodge" "Dan" "Danielle" "David" "Duke" "Devina" "Denny" "Dingus" "Donathan" "Donny" "Dante" "Diogenes" "Dawn"
+            "Edmund" "Edgar" "Eloise" "EttaLou" "Elvira" "Elsie" "Elmer" "Ettiene" "Erasmus" "Elohim" "Exeter" "Ever" "Eunice" "Eustice" "Eduardo" "Edwina" "Edith"
+            "Francine" "Fallon" "Frank" "Feivel" "Fifi" "Francois" "Ferdinand" "Felicia" "Felix" "Fred" "Flannery" "Fido" "Faust" "Francisco" "Fanny" "Fenwick"
+            "George" "Gertrude" "Georgie" "Gus" "Gary" "Gene" "Gramps" "Granny" "Gringo" "Geronimo" "Geraldo" "Glen" "Georgette" "Geoff" "Gunther" "Garland"
+            "Howie" "Hannah" "Havarah" "Heinrick" "Henna" "Havana" "Heaven" "Holly" "Hope" "Heiman" "Heimy" "Howard" "Hulk" "Honey" "Hannibal" "Herod"
+            "Icarus" "Ionia" "Isabelle" "Isis" "Israel" "Issy" "Ione" "Ingrid" "Ibex" "Ivy" "Imogen" "Inez" "Ignacio" "Isadora" "Irma" "Iggy" "India" "Inju"
+            "Justine" "Joe" "Jack" "Jake" "Janet" "Jill" "Jonathan" "Jasper" "Janelle" "Janice" "Joaquin" "Jay" "Jerry" "Jessica" "Josephine" "Joa" "Joan" "Jolene"
+            "Katya" "Kate" "Kathleen" "Karl" "Kathy" "Kortney" "Kronkite" "Kirby" "Kimberly" "Kim" "Kadisha" "Kristina" "Keith" "Kalamity" "Kenji" "Kendall"
+            "Louise" "Louis" "Linda" "Loretta" "Lionel" "Lyle" "Lewis" "Lumpy" "Linette" "Lenny" "Lorene" "Lola" "Letecia" "Lisette" "Lucy" "Lucian" "Landry"
+            "Montgomery" "Margerie" "Maggie" "Midge" "Myron" "Mark" "Mike" "Miles" "Minerva" "Mykael" "Michael" "Melissa" "Melanie" "Macy" "Moira" "Manny"
+            "Nick" "Nicholas" "Nigel" "Nanine" "Nancy" "Ninette" "Naomi" "Ned" "Noona" "Nona" "Nina" "Nissa" "Nancy" "Neva" "Nieva" "Nora" "Newt" "Noam"
+            "Octavius" "Oliver" "Ollie" "Olivia" "Ormand" "Oswald" "Orville" "Owen" "Oswaldo" "Olivander" "Orson" "Orex" "Onmund" "Offenglove" "Ozzy"
+            "Peter" "Patricia" "Patrice" "Patrick" "Prince" "Pierce" "Patty" "Pygmalia" "Pigeon" "Paul" "Petey" "Pliny" "Penelope" "Ptomely" "Piper"
+            "Quinn" "Quan"
+            "Robert" "Raymond" "Reinhart" "Rachel" "Raquel" "Ringo" "Robbie" "Raleigh" "Riley" "Rory" "Roland" "Ryan" "Raphael" "Rapunzel" "Rupolph" "Rupbert" "Rufus" "Rusty"
+            "Steve" "Steinway" "Sarah" "Sandra" "Sigourney" "Susie" "Sissy" "Sally" "Susan" "Silver" "Stella" "Stellathe" "Stewart" "Sylvia" "Sophie" "Sage" "Sophia" "Sonia"
+            "Todd" "Timothy" "Talus" "Tallulah" "Ted" "Tyler" "Theodore" "Tom" "Thomas" "Tammy" "Tanya" "Titus" "Thor" "Tyra" "Tyree" "Thaddeus" "Thucydides" "Teal" "Tanner" "Tyson"
+            "Ulysses" "Ulrich" "Undine" "Ulgar" "Uniqwa" "Ursula" "Ursaline" "Uzaki" "Usher"
+            "Vanover" "Victor" "Valerie" "Valmor" "Val" "Veronica" "Vaughn" "Viviana" "Vivian" "Vivianca" "Vlad"
+            "Wallace" "Walter" "William" "Wilemena" "Wilemette" "Wilhelm" "Wole" "Winona" "Winnie" "Wales" "Wyatt" "Wilt" "Wilson" "Waldo" "Wilbur" "Watson"
+            "Xerxes" "Xander" "Xandra" "Xanadu" "Xiah" "Xavier" "Xerox"
+            "Yaro" "Yahweh"
+            "Zed" "Zena" "Zenon" "Zero" "Zeb"
+]
 
-  create-members num_agents [
-    set qual ((random 100) / 100)
-    set quan ((random 100) / 100)
-    set engag ((random 100) / 100)
+create-members num_agents [
+set member_name one-of names
+; initialize values
+set utility random-normal 0.0 100.0
+set benefit_rate random-normal 0.0 100.0
+set personal_cost random-normal 0.0 100.0
+ifelse (one-of [0 1]) = 1 [set cooperating? TRUE] [set cooperating? FALSE]
+set horizon_length random-normal 0 100
+set success_prob random-normal 0.0 1.0
 
-    set contrib_size (quan * unit) ; using the quantitative value, find the size they contribute
+; find f_crit
+set f_crit ((num_agents * personal_cost - benefit_rate) / (horizon_length * reevaluate_rate * (benefit_rate - personal_cost)))
 
-    set role (one-of ["admin" "dev" "other"])
+; estimate num_cooperating based on current values
+let cooperating_val 0
+if cooperating? [ set cooperating_val 1 ]
+set local_num_cooperating ((num_agents / benefit_rate) * (utility + (personal_cost * cooperating_val)))
 
-    setxy (qual * max-pxcor) (quan * max-pycor)
+ifelse f_crit > local_num_cooperating
+[ set cooperating? TRUE ]
+[ set cooperating? FALSE ]
 
-    set shape "person"
-    ifelse role = "admin" [
-      set color (list (engag * 255) 0 0)
+set qual ((random 100) / 100)
+set quan ((random 100) / 100)
+set engag ((random 100) / 100)
+
+set contrib_size (quan * unit) ; using the quantitative value, find the size they contribute
+
+set role (one-of ["admin" "dev" "other"])
+
+setxy (qual * max-pxcor) (quan * max-pycor)
+
+set shape "person"
+ifelse role = "admin" [
+    set color (list (engag * 255) 0 0)
+]
+[
+    ifelse role = "dev" [
+    set color (list 0 (engag * 255) 0)
     ]
     [
-      ifelse role = "dev" [
-        set color (list 0 (engag * 255) 0)
-      ]
-      [
-        set color (list 0 0 (engag * 255))
-      ]
+    set color (list 0 0 (engag * 255))
     ]
-  ]
+]
+]
 
-  ask members [
-    set repo_size (repo_size + contrib_size)
-  ]
+ask members [
+set repo_size (repo_size + contrib_size)
+]
 
-  reset-ticks
+reset-ticks
 end
 
 to go
-  ask members [
-    get-sensory-info
-    take-action
-    update-world
-  ]
+ask members [
+get-sensory-info
+take-action
+update-world
+]
 
-  tick
+set num_cooperating (count members with [cooperating? = TRUE])
+set dynamics_of_coop find-dynamics
+
+tick
+end
+
+to-report find-dynamics
+set fraction_cooperating (num_cooperating / num_agents)
+report (- reevaluate_rate) * (fraction_cooperating - (1 / 2) * (1 + error-func))
+end
+
+to-report error-func
+let mean_f_crit (mean [f_crit] of members)
+let mean_success_prob (mean [success_prob] of members)
+let mean_num_cooperating (mean [local_num_cooperating] of members)
+let f_coop (mean_success_prob * mean_num_cooperating + (1 - mean_success_prob) * (1 - mean_num_cooperating))
+let coop_function ((f_coop - mean_f_crit) / (uncertainty * (sqrt 2)))
+report coop_function
 end
 
 to get-sensory-info
-  ; find the local horizon of the given agent
-  let horizon_value (engag * horizon)
-  ; look around at all the agents around that agent and their variables
-  set other_agents (members in-radius horizon_value)
+; find the local horizon of the given agent
+let horizon_value (engag * horizon)
+; look around at all the agents around that agent and their variables
+set other_agents (members in-radius horizon_value)
+
+; find f_crit
+set f_crit (((num_agents * personal_cost) - benefit_rate) / (horizon_length * reevaluate_rate * (benefit_rate - personal_cost)))
+;show f_crit
+
+; set the cooperating value (kroenecker delta)
+let cooperating_val 0.0
+if cooperating? [ set cooperating_val 1.0 ]
+
+; calculate local utility using last known local_num_cooperating
+set utility (benefit_rate * (local_num_cooperating / num_agents) - (personal_cost * cooperating_val))
+
+; estimate local_num_cooperating based on current values
+set local_num_cooperating (((count other_agents) / benefit_rate) * (utility + (personal_cost * cooperating_val)))
+
+;let local_fraction_cooperating (local_num_cooperating / num_agents)
+let local_fraction_cooperating (success_prob * local_num_cooperating + (1 - success_prob) * (1 - num_cooperating))
+
+;show f_crit
+;show local_fraction_cooperating
+ifelse f_crit = local_fraction_cooperating
+[ set cooperating? one-of [TRUE FALSE] ]
+[
+ifelse f_crit < local_fraction_cooperating
+[ set cooperating? TRUE ]
+[ set cooperating? FALSE ]
+]
 end
 
 to take-action
-  ;let chosen_action (random 4)
-  ;show chosen_action
-  ; 0 => qual+ 1 => quan+ 2 => engag+ 3 => all-
-  let max_vals (list (max [qual] of other_agents) (max [quan] of other_agents) (max [engag] of other_agents))
-  let chosen_action 0
-  if (max max_vals) = (item 0 max_vals) [
-    set chosen_action 0
-  ]
-  if (max max_vals) = (item 1 max_vals) [
-    set chosen_action 1
-  ]
-  if (max max_vals) = (item 2 max_vals) [
-    set chosen_action 2
-  ]
-  if (random 50) = 0 [
-    set chosen_action 3
-  ] ; randomly quiesce
+let chosen_action 3
 
-  ;show chosen_action
+if cooperating?
+[  set chosen_action one-of [0 1 2]  ]
 
-  let change_val 0.01
-  if chosen_action = 0 [ set qual (qual + change_val) ]
-  if chosen_action = 1 [ set quan (quan + change_val) ]
-  if chosen_action = 2 [ set engag (engag + change_val) ]
-  if chosen_action = 3 [
-    set qual (qual - change_val)
-    set quan (quan - change_val)
-    set engag (engag - change_val)
-  ]
+;show chosen_action
+; 0 => qual+ 1 => quan+ 2 => engag+ 3 => all-
+
+let change_val ((contrib_size * (random-normal 1.0 max_noise)) / repo_size)
+if role = "admin" [
+set change_val (change_val * 2)
+]
+if role = "dev" [
+set change_val (change_val * 1.5)
+]
+if chosen_action = 0 [ set qual (qual + change_val) ]
+if chosen_action = 1 [ set quan (quan + change_val) ]
+if chosen_action = 2 [ set engag (engag + change_val) ]
+if chosen_action = 3 [
+set qual (qual - change_val)
+set quan (quan - change_val)
+set engag (engag - change_val)
+]
+
+set contrib_size (contrib_size + (quan * unit)) ; using the quantitative value, find the size they contribute
 end
 
 to update-world
-  if (qual * max-pxcor) > max-pxcor [ set qual 1.0 ]
-  if (quan * max-pycor) > max-pycor [ set quan 1.0 ]
-  if (engag * 255) > 255 [ set engag 1.0 ]
-  if (qual * max-pxcor) < min-pxcor [ set qual 0.1 ]
-  if (quan * max-pycor) < min-pycor [ set quan 0.1 ]
-  if (engag * 255) < 0 [ set engag 0.1 ]
+set repo_size (repo_size + contrib_size)
 
-  setxy (qual * max-pxcor) (quan * max-pycor)
+if (qual * max-pxcor) > max-pxcor [ set qual 1.0 ]
+if (quan * max-pycor) > max-pycor [ set quan 1.0 ]
+if (engag * 255) > 255 [ set engag 1.0 ]
+if (qual * max-pxcor) < min-pxcor [ set qual 0.0 ]
+if (quan * max-pycor) < min-pycor [ set quan 0.0 ]
+if (engag * 255) < 0 [ set engag 0.0 ]
 
-  set shape "person"
-  ifelse role = "admin" [ set color (list (engag * 255) 0 0) ]
-    [ ifelse role = "dev" [ set color (list 0 (engag * 255) 0) ]
-    [ set color (list 0 0 (engag * 255)) ] ]
+setxy (qual * max-pxcor) (quan * max-pycor)
 
-  set repo_size (repo_size + contrib_size)
+set shape "person"
+ifelse role = "admin" [ set color (list (engag * 255) 0 0) ]
+[ ifelse role = "dev" [ set color (list 0 (engag * 255) 0) ]
+[ set color (list 0 0 (engag * 255)) ] ]
+
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
@@ -299,14 +404,14 @@ ticks
 30
 
 SLIDER
-13
-29
-185
-62
+14
+10
+186
+43
 num_agents
 num_agents
 0
-100
+1000
 -num_agents-
 1
 1
@@ -314,13 +419,13 @@ NIL
 HORIZONTAL
 
 PLOT
-3
-122
-203
-272
-churn
+4
+270
+204
+420
+dynamics of cooperation
 ticks
-burn out rate
+cooperating agents
 0
 100
 0
@@ -329,24 +434,13 @@ true
 false
 "" ""
 PENS
-"default" 1 0 -16777216 true "" "plot (count members with [engag < 0.1]) / num_agents"
-
-MONITOR
-67
-286
-140
-331
-repo size
-repo_size
-17
-1
-11
+"default" 1 0 -16777216 true "" "plot dynamics_of_coop"
 
 BUTTON
-6
-293
-62
-326
+7
+426
+63
+459
 setup
 setup\n
 NIL
@@ -360,10 +454,10 @@ NIL
 1
 
 BUTTON
-144
-294
-199
-327
+145
+427
+200
+460
 go
 go
 T
@@ -375,42 +469,168 @@ NIL
 NIL
 NIL
 1
+
+SLIDER
+12
+126
+184
+159
+uncertainty
+uncertainty
+0.01
+1.0
+-uncertainty-
+0.01
+1
+NIL
+HORIZONTAL
+
+SLIDER
+11
+162
+186
+195
+reevaluate_rate
+reevaluate_rate
+0.01
+1.0
+-reevaluate_rate-
+0.01
+1
+NIL
+HORIZONTAL
+
+MONITOR
+67
+422
+142
+467
+NIL
+repo_size
+0
+1
+11
+
+SLIDER
+10
+200
+182
+233
+unit
+unit
+0.01
+10.0
+-unit-
+0.01
+1
+NIL
+HORIZONTAL
+
+SLIDER
+10
+238
+182
+271
+horizon
+horizon
+1
+100
+-horizon-
+1
+1
+NIL
+HORIZONTAL
+
+MONITOR
+36
+44
+162
+89
+NIL
+num_cooperating
+2
+1
+11
+
+SLIDER
+12
+90
+184
+123
+max_noise
+max_noise
+1.0
+500.0
+-max_noise-
+0.1
+1
+NIL
+HORIZONTAL
+
+TEXTBOX
+36
+117
+186
+135
+will cause craziness
+10
+0
+1
 @#$#@#$#@
 ## WHAT IS IT?
 
-(a general understanding of what the model is trying to show or explain)
+This is a model of an Open Source Development Community. The scope of the model is that of a single such community working under shared goals, with 3 roles of agents at work in the community: Admins, Devs, and Others.
+
+The 3 types of agent have different effects on their contribution location and therefore on the agents around them.
+
+The properties of each agent are primarily of their contributions, which are imagined as three index values: Quality and Quantity forming a 2-dimensional location regarding their code, and Engagement being a 3rd dimension representing how much they engage with the community. Engagement also extends the horizon line of how far each agent can see from its location. Quantity drives the size of their contributions.
+
+The actions of each agent are to act to change the three index values representing their contributions. In this model, these actions are abstract, but in "real life" they would correspond as follows: increase quality index (reuse code of other agents, engage with an issue), increase quantity index (write code, submit pull request), increase engagement index (fork repo, comment on issue or pull request), decrease all index values (quiesce or do nothing).
+
+The environment is a 3-dimensional contribution location with Quality and Quantity as a 2-dimensional graph and Engagement as the intensity of the color of each agent.
+
+The order of events begins with initializing the agents with random index values, then updating the overall repo size.
+After initialization, each iteration will get sensory data (in this case the agents which are within a given agent's horizon), take an action based on that data (using the information gleaned), and finally update the values of the environment/world based on that agent's actions.
+
+The inputs to this model are simply a given size of the community. The output is the churn rate, or amount of agents which end up with a low engagement score.
 
 ## HOW IT WORKS
 
-(what rules the agents use to create the overall behavior of the model)
+This particular model is more of an outline for a more comprehensive and sophisticated model to come. See "Extending the Model" for vision information.
+
+Each agent has a location in the contribution featurespace, given its Engagement Index value, it has a "horizon" from which it can see around itself and note the index values of those agents within the horizon. Each agent chooses an action which will advance the index value which those around it have most strongly.
 
 ## HOW TO USE IT
 
-(how to use the model, including a description of each of the items in the Interface tab)
+To use this model, adjust the number of agents slider to a given size, then watch as agents changes over time, noting the churn rate and position in the feature space.
 
 ## THINGS TO NOTICE
 
-(suggested things for the user to notice while running the model)
+Beginning with a low number of initial agents can cause agents to spin off into their own cliques, some high quality and quantity agents losing engagement scores and others with high engagement scores but low quality and quantity scores.
+
+Beginning with a high number of agents creates a bit more sustainability in that the churn rate takes a longer time to increase and each agent group moves more slowly, as they have more neighbors to respond to.
 
 ## THINGS TO TRY
 
-(suggested things for the user to try to do (move sliders, switches, etc.) with the model)
+Try starting with different numbers of agents.
 
 ## EXTENDING THE MODEL
 
-(suggested things to add or change in the Code tab to make the model more complicated, detailed, accurate, etc.)
+The back-end of this model is where most of the extension occurs, it could be made as an active inference model, a POMDP model, a simple HMM, or even such a simple rule based model as I have here.
 
 ## NETLOGO FEATURES
 
-(interesting or unusual features of NetLogo that the model uses, particularly in the Code tab; or where workarounds were needed for missing features)
+We use the "breed" function to simplify things a bit.
 
 ## RELATED MODELS
 
-(models in the NetLogo Models Library and elsewhere which are of related interest)
+Value Iteration in an MDP
 
 ## CREDITS AND REFERENCES
 
-(a reference to the model's URL on the web if it has one, as well as any other necessary credits, citations, and links)
+Google Summer of Code
+International Neuroinformatics Coordinating Facility
+Orthogonal Research and Education Laboratory
 @#$#@#$#@
 default
 true
