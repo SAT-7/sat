@@ -1,8 +1,53 @@
-{% extends "base.html" %} {% block title %}Models{% endblock %} {% block content
+{% extends "connected.html" %} {% block title %}Models{% endblock %} {% block content
 %}
-<h1 align="center">Models</h1>
-<div class="model">
-    <iframe src="{{ url_for('static', filename='models/currentmodel.html') }}" title="Example Model" width="100%" height="100%"></iframe>
+<script>
+   function getIframeContent(frameID) {
+      var frameObj = document.getElementById(frameID);
+      var frameContent = frameObj.contentWindow.document.body.innerHTML;
+      var element = document.getElementById("save");
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(frameContent));
+   }
+</script>
+<br><br>
+<div style="position:relative; margin-top:4em">
+   <!-- Models-->
+   <div class="row">
+      <div class="col-lg-4">
+         <a id="save" onclick="getIframeContent('model');" download="model.html"><button class="btn btn-lg btn-outline-light" id="button-save" type="button">Save Model</button></a>
+      </div>
+   </div>
+   <div class="dropdown row">
+      <div class="col-lg-4">
+         <button class="btn btn-lg btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" 
+         aria-expanded="false">Compare Models</button>
+      </div>
+      <div class="col-lg-4">
+         <label for="model-comparison" class="text-white">Select a Model</label>
+         <select id="model-comparison">
+            <option value="{{ url_for('static', filename='models/osdcCoOp.html') }}">Cooperation</option>
+            <option value="{{ url_for('static', filename='models/nogood.html') }}">Oversimplification</option>
+         </select>
+      </div>
+   </div>
+   <div class="model">
+      <iframe src="{{ url_for('static', filename='models/currentmodel.html') }}" id="model" name="model" width="100%" height="100%" ></iframe>
+   </div>
 </div>
-<!--Changed from other model-->
+
+<script>
+   // Get the iframe and the dropdown menu
+   var iframe = document.getElementById('model');
+   var menu = document.getElementById('model-comparison');
+
+   // Add an event listener to the menu to listen for changes
+   menu.addEventListener('change', function() {
+     // Get the selected value from the menu
+     var selected = menu.options[menu.selectedIndex].value;
+
+     // Update the src attribute of the iframe to the selected value
+     iframe.src = selected;
+   });
+</script>
 {% endblock %}
+
+
