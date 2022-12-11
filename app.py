@@ -58,8 +58,9 @@ def models():
     members_resp = github.get("/orgs/SAT-7/members")
     assert members_resp.ok
     members = json.dumps(members_resp.json(), separators=(',', ':'))
-    if len(members) > 0:
-        num_agents = len(members)
+    name_list = []
+    for m in members:
+        name_list.append(m['login'])
     uncertainty = 0.55
     reevaluate_rate = 0.55
     unit = 0.55
@@ -86,7 +87,7 @@ def models():
         count += 1
     with open('website/static/models/currentmodel.html', 'w') as file:
         file.writelines(lines)
-    return render_template("models.html",gh_json=members)
+    return render_template("models.html",gh_json=str(name_list))
     
 def unused_code():
     entry = 0
