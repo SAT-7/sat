@@ -16,7 +16,7 @@
                     <form name="orgform" id="orgform" action="\models" method="GET">
                         <select name="org" id="org">
                         {% for org in gh_json %}
-                            <option value='{{"{orgname}".format(orgname=org["organization"]["login"])}}' selected="selected">{{"{orgname}".format(orgname=org['organization']['login'])}}</option>
+                            <option value='{{"{org}".format(org=org["organization"]["login"])}}' selected="selected">{{"{org}".format(org=org['organization']['login'])}}</option>
                         {% endfor %}
                         </select>
                         <input type="submit" value="Select">
