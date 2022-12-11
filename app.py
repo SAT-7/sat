@@ -33,8 +33,7 @@ def connect():
     if not cache.get("gh_json",resp.json()):
         resp = github.get("/user/memberships/orgs")
         assert resp.ok
-    else:
-        resp = cache.get("gh_json",resp.json())
+        cache.set("gh_json",resp.json())
     #return "You are @{login} on GitHub".format(login=resp.json()["login"])
     return render_template("githubauth.html",gh_json=cache.get("gh_json",resp.json()))
     
