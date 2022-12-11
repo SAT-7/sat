@@ -43,9 +43,9 @@ def repo():
     
 @app.route('/models',methods = ['POST', 'GET'])
 def models():
-    if request.method == 'POST':
+    #if request.method == 'POST':
     #    # get the selected value from the HTML select form
-        cache.set(cached_org=request.form['orgform'])
+    #    cache.set(cached_org=request.form['orgform'])
     num_agents = 55
     #org_json = cache.get("gh_json")
     chosen_org = "SAT-7"
