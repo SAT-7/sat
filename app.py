@@ -26,14 +26,15 @@ app.register_blueprint(github_bp, url_prefix="/login")
 
 @app.route("/connect")
 def connect():
-    if not github.authorized:
-        return redirect(url_for("github.login"))
+    #if not github.authorized:
+    #    return redirect(url_for("github.login"))
     #resp = github.get("/user")
     #resp = github.get("/user/repos")
-    resp = github.get("/user/memberships/orgs")
-    assert resp.ok
-    cache.set("gh_json",resp.json())
-    return "You are @{login} on GitHub".format(login=resp.json()["login"])  
+    #resp = github.get("/user/memberships/orgs")
+    #assert resp.ok
+    #cache.set("gh_json",resp.json())
+    #return "You are @{login} on GitHub".format(login=resp.json()["login"])  
+    return "test of routing, working?"
     
 @app.route('/models')
 def models():
