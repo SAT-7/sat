@@ -1,7 +1,7 @@
 from website import create_app
 import os
 from os.path import join, dirname
-from flask import Blueprint, render_template, Flask, redirect, url_for
+from flask import Blueprint, render_template, Flask, redirect, url_for, request
 from flask_dance.contrib.github import make_github_blueprint, github
 from flask_caching import Cache
 
@@ -24,6 +24,10 @@ app.config["GITHUB_OAUTH_CLIENT_SECRET"] = os.environ.get("GITHUB_OAUTH_CLIENT_S
 github_bp = make_github_blueprint(scope='read:org',redirect_url='https://sustainabilityauditingtool.herokuapp.com/connect')
 app.register_blueprint(github_bp, url_prefix="/login")
 
+if request.method == 'POST':
+        # get the selected value from the HTML select form
+        cache.set(cached_org=request.form['orgform'])
+
 @app.route("/connect")
 def connect():
     if not github.authorized:
@@ -36,15 +40,20 @@ def connect():
     #return "You are @{login} on GitHub".format(login=resp.json()["login"])
     #return render_template("githubauth.html",gh_json=cache.get("gh_json",resp.json()))
     return render_template("githubauth.html",gh_json=resp.json())
+
+@app.route("/repo")
+def repo():
+    return render_template("repochoose.html",gh_json=cache.get("gh_json"))
     
 @app.route('/models')
 def models():
     num_agents = 55
     org_json = cache.get("gh_json")
-    for org in org_json:
-        members = github.get("/orgs/{org['login']}/members")
-        if len(members.json()) > 0:
-            num_agents = len(members.json())
+    chosen_org = cache.get("cached_org")
+
+    members = github.get("/orgs/{chosen_org}/members")
+    if len(members.json()) > 0:
+        num_agents = len(members.json())
     uncertainty = 0.55
     reevaluate_rate = 0.55
     unit = 0.55

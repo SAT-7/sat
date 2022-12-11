@@ -10,13 +10,13 @@
         </div>
             <div class="panel panel-default" >
                 <div class="panel-heading">
-                    <div class="panel-title text-center">GitHub Authorized, choose Organization</div>
+                    <div class="panel-title text-center">GitHub Authorized, choose Repo</div>
                 </div>     
                 <div class="panel-body" >
-                    <form name="orgform" id="orgform" action="\models">
+                    <form name="repoform" id="repoform" action="\repo">
                         <select name="org" id="org">
-                        {% for org in gh_json %}
-                            <option value='{{"{orgname}".format(orgname=org["organization"]["login"])}}' selected="selected">{{"{orgname}".format(orgname=org['organization']['login'])}}</option>
+                        {% for repos in gh_json %}
+                            <option value='{{"{repo}".format(repo=repos[chosen_org]["repos"]["login"])}}' selected="selected">{{"{repo}".format(repo=repos[chosen_org]['repos']['login'])}}</option>
                         {% endfor %}
                         </select>
                         <input type="submit" value="Select">
