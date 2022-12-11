@@ -40,7 +40,7 @@ def connect():
         #print(members)
         cache.set("{mem_count[entry]}",len(members.json()))
         entry += 1
-    #return render_template("githubauth.html",gh_json=resp.json())
+    return render_template("githubauth.html",gh_json=resp.json())
 
 
 @app.route('/models')
