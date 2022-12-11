@@ -13,16 +13,11 @@
                     <div class="panel-title text-center">GitHub Authorized, choose Organization</div>
                 </div>     
                 <div class="panel-body" >
-                    <form name="orgform" id="orgform" action="\models">
+                    <form name="orgform" id="orgform" action="\models" method="POST">
                         <select name="org" id="org">
                         {% for org in gh_json %}
                             <option value='{{"{orgname}".format(orgname=org["organization"]["login"])}}' selected="selected">{{"{orgname}".format(orgname=org['organization']['login'])}}</option>
                         {% endfor %}
-                        {% block python %}
-                            if request.method == 'POST':
-                                    # get the selected value from the HTML select form
-                                    cache.set(cached_org=request.form['orgform'])
-                        {% endblock %}
                         </select>
                         <input type="submit" value="Select">
                     </form> 
