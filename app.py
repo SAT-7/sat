@@ -33,8 +33,7 @@ def connect():
     resp = github.get("/user/memberships/orgs")
     assert resp.ok
     cache.set("gh_json",resp.json())
-    return resp.json()
-    #return "You are @{login} on GitHub".format(login=resp.json()["login"])  
+    return "You are @{login} on GitHub".format(login=resp.json()["login"])  
     
 @app.route('/models')
 def models():
