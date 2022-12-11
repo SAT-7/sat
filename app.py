@@ -51,7 +51,7 @@ def models():
     chosen_org = "SAT-7"
     if cache.get("cached_org"):
         chosen_org = cache.get("cached_org")
-    members = github.get("/orgs/{chosen_org}/members")
+    members = github.get("/orgs/{{chosen_org}}/members")
     assert members.ok
     if len(members.json()) > 0:
         num_agents = len(members.json())
