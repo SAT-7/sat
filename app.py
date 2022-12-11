@@ -50,7 +50,7 @@ def models():
     else:
         chosen_org = request.args.get('orgform')
         cache.set("cached_org",chosen_org)
-    num_agents = 55
+    num_agents = 5
     #org_json = cache.get("gh_json")
     chosen_org = "SAT-7"
     if cache.get("cached_org"):
