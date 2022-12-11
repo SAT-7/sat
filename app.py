@@ -48,9 +48,9 @@ def models():
             cache.set(cached_org=request.form['orgform'])
 
     num_agents = 55
-    org_json = cache.get("gh_json")
+    #org_json = cache.get("gh_json")
     chosen_org = cache.get("cached_org")
-
+    print(chosen_org)
     members = github.get("/orgs/{chosen_org}/members")
     assert members.ok
     if len(members.json()) > 0:
