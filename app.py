@@ -60,13 +60,18 @@ def models():
     members = json.dumps(members_resp.json(), separators=(',', ':'))
     if len(members) > 0:
         num_agents = len(members)
+    model_site = 0
+    write_new_html(model_site)
+    return render_template("models.html",gh_json=members)
+    
+def write_new_html(site,num_agents=5):
     uncertainty = 0.55
     reevaluate_rate = 0.55
     unit = 0.55
     horizon = 5.5
     max_noise = 55.0
     sites = ['anatomyofamodel.html','osdcCoOpStripped.html']
-    with open('website/static/models/'+sites[0],'r') as file:
+    with open('website/static/models/'+sites[site],'r') as file:
         lines = file.readlines()
     #print(lines)
     count = 0
@@ -86,8 +91,8 @@ def models():
         count += 1
     with open('website/static/models/currentmodel.html', 'w') as file:
         file.writelines(lines)
-    return render_template("models.html",gh_json=members)
-    
+app.jinja_env.globals.update(write_new_html=write_new_html)
+
 def unused_code():
     entry = 0
     #for org in resp:
