@@ -62,9 +62,10 @@ def models():
         num_agents = len(members)
     model_site = 0
     write_new_html(model_site)
+    write_new_html(model_site+1,filename="comparemodel")
     return render_template("models.html",gh_json=members)
     
-def write_new_html(site,num_agents=5):
+def write_new_html(site,num_agents=5,filename="currentmodel"):
     uncertainty = 0.55
     reevaluate_rate = 0.55
     unit = 0.55
@@ -89,7 +90,7 @@ def write_new_html(site,num_agents=5):
         if line.__contains__("-max_noise-"):
             lines[count] = str(max_noise)+'\n'
         count += 1
-    with open('website/static/models/currentmodel.html', 'w') as file:
+    with open('website/static/models/'+filename+'.html', 'w') as file:
         file.writelines(lines)
 app.jinja_env.globals.update(write_new_html=write_new_html)
 
