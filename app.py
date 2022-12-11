@@ -36,12 +36,12 @@ def connect():
 
 def unused():    
     entry = 0
-    for org in resp:
-        members = github.get("/orgs/{org['login']}/members")
-        print(members)
-        cache.set("{mem_count[entry]}",len(members.json()))
-        entry += 1
-    return render_template("githubauth.html",gh_json=resp.json())
+    #for org in resp:
+    #    members = github.get("/orgs/{org['login']}/members")
+    #    print(members)
+    #    cache.set("{mem_count[entry]}",len(members.json()))
+    #    entry += 1
+    #return render_template("githubauth.html",gh_json=resp.json())
 
 
 @app.route('/models/')
