@@ -54,11 +54,11 @@ def models():
     chosen_org = "SAT-7"
     if cache.get("cached_org"):
         chosen_org = cache.get("cached_org")
-    get_request = "/orgs/SAT-7['login']/members"
+    get_request = "/orgs/SAT-7/members"
     members = github.get(get_request)
     assert members.ok
-    if len(members.json()) > 0:
-        num_agents = len(members.json())
+    #if len(members.json()) > 0:
+    #    num_agents = len(members.json())
     uncertainty = 0.55
     reevaluate_rate = 0.55
     unit = 0.55
@@ -85,7 +85,7 @@ def models():
         count += 1
     with open('website/static/models/currentmodel.html', 'w') as file:
         file.writelines(lines)
-    return render_template("models.html",gh_json=members.json()[0])
+    return render_template("models.html",gh_json=members.json()['user'])
     
 def unused_code():
     entry = 0
