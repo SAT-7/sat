@@ -44,12 +44,13 @@ def repo():
 @app.route('/models',methods = ['POST', 'GET'])
 def models():
     if request.method == 'POST':
-        # get the selected value from the HTML select form
+    #    # get the selected value from the HTML select form
         cache.set(cached_org=request.form['orgform'])
-
     num_agents = 55
     #org_json = cache.get("gh_json")
-    chosen_org = cache.get("cached_org")
+    chosen_org = "SAT-7"
+    if cache.get("cached_org"):
+        chosen_org = cache.get("cached_org")
     members = github.get("/orgs/{chosen_org}/members")
     assert members.ok
     if len(members.json()) > 0:
