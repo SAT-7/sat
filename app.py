@@ -25,8 +25,8 @@ app.register_blueprint(github_bp, url_prefix="/login")
 
 @app.route("/login/github/authorized/")
 def connect():
-    if not github.authorized:
-        return redirect(url_for("github.login"))
+    #if not github.authorized:
+    #    return redirect(url_for("github.login"))
     #resp = github.get("/user")
     #resp = github.get("/user/repos")
     resp = github.get("/user/memberships/orgs")
