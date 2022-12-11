@@ -33,16 +33,8 @@ def connect():
     resp = github.get("/user/memberships/orgs")
     assert resp.ok
     cache.set("gh_json",resp.json())
-    #return "You are @{login} on GitHub".format(login=resp.json()["login"])  
-    entry = 0
-    for org in resp:
-        members = github.get("/orgs/{org['login']}/members")
-        #print(members)
-        cache.set("{mem_count[entry]}",len(members.json()))
-        entry += 1
-    return render_template("githubauth.html",gh_json=resp.json())
-
-
+    return "You are @{login} on GitHub".format(login=resp.json()["login"])  
+    
 @app.route('/models')
 def models():
     num_agents = 55
@@ -74,5 +66,14 @@ def models():
         file.writelines(lines)
     return render_template("models.html",gh_json=cache.get("gh_json"))
     
+def unused_code():
+    entry = 0
+    #for org in resp:
+    #    members = github.get("/orgs/{org['login']}/members")
+    #    #print(members)
+    #    cache.set("{mem_count[entry]}",len(members.json()))
+    #    entry += 1
+    #return render_template("githubauth.html",gh_json=resp.json())
+
 if __name__ == "__main__":
     app.run(debug=True)
