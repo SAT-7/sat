@@ -24,7 +24,7 @@ app.config["GITHUB_OAUTH_CLIENT_SECRET"] = os.environ.get("GITHUB_OAUTH_CLIENT_S
 github_bp = make_github_blueprint(scope='read:org',redirect_url='https://sustainabilityauditingtool.herokuapp.com/connect')
 app.register_blueprint(github_bp, url_prefix="/login")
 
-@app.route("/connect/")
+@app.route("/connect")
 def connect():
     if not github.authorized:
         return redirect(url_for("github.login"))
@@ -33,19 +33,17 @@ def connect():
     resp = github.get("/user/memberships/orgs")
     assert resp.ok
     cache.set("gh_json",resp.json())
-    return "You are @{login} on GitHub".format(login=resp.json()["login"])
-
-def unused():    
+    #return "You are @{login} on GitHub".format(login=resp.json()["login"])  
     entry = 0
-    #for org in resp:
-    #    members = github.get("/orgs/{org['login']}/members")
-    #    print(members)
-    #    cache.set("{mem_count[entry]}",len(members.json()))
-    #    entry += 1
+    for org in resp:
+        members = github.get("/orgs/{org['login']}/members")
+        #print(members)
+        cache.set("{mem_count[entry]}",len(members.json()))
+        entry += 1
     #return render_template("githubauth.html",gh_json=resp.json())
 
 
-@app.route('/models/')
+@app.route('/models')
 def models():
     num_agents = 55
     uncertainty = 0.55
