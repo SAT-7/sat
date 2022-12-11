@@ -20,10 +20,10 @@ cache = Cache(app)
 app.secret_key = os.urandom(24)
 app.config["GITHUB_OAUTH_CLIENT_ID"] = os.environ.get("GITHUB_OAUTH_CLIENT_ID")
 app.config["GITHUB_OAUTH_CLIENT_SECRET"] = os.environ.get("GITHUB_OAUTH_CLIENT_SECRET")
-github_bp = make_github_blueprint(scope='read:org',redirect_to='/connect/')
+github_bp = make_github_blueprint(scope='read:org')
 app.register_blueprint(github_bp, url_prefix="/login")
 
-@app.route("/connect/")
+@app.route("/login/github/authorized")
 def connect():
     if not github.authorized:
         return redirect(url_for("github.login"))
