@@ -24,10 +24,6 @@ app.config["GITHUB_OAUTH_CLIENT_SECRET"] = os.environ.get("GITHUB_OAUTH_CLIENT_S
 github_bp = make_github_blueprint(scope='read:org',redirect_url='https://sustainabilityauditingtool.herokuapp.com/connect')
 app.register_blueprint(github_bp, url_prefix="/login")
 
-if request.method == 'POST':
-        # get the selected value from the HTML select form
-        cache.set(cached_org=request.form['orgform'])
-
 @app.route("/connect")
 def connect():
     if not github.authorized:
@@ -47,6 +43,9 @@ def repo():
     
 @app.route('/models')
 def models():
+    if request.method == 'POST':
+            # get the selected value from the HTML select form
+            cache.set(cached_org=request.form['orgform'])
     num_agents = 55
     org_json = cache.get("gh_json")
     chosen_org = cache.get("cached_org")
