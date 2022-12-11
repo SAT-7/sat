@@ -55,7 +55,7 @@ def models():
     chosen_org = "SAT-7"
     if cache.get("cached_org"):
         chosen_org = cache.get("cached_org")
-    members_resp = github.get("/orgs/SAT-7/members")
+    members_resp = github.get("/orgs/"+chosen_org+"/members")
     assert members_resp.ok
     members = json.dumps(members_resp.json(), separators=(',', ':'))
     #if len(members_resp.json()) > 0:
