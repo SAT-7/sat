@@ -54,11 +54,11 @@ def models():
     chosen_org = "SAT-7"
     if cache.get("cached_org"):
         chosen_org = cache.get("cached_org")
-    get_request = "/orgs/SAT-7/members"
-    members = github.get(get_request.org)
+    get_request = "/orgs/SAT-7"
+    members = github.get(get_request)
     assert members.ok
-    if len(members.json()) > 0:
-        num_agents = len(members.json())
+    if len(members.json()["members"]) > 0:
+        num_agents = len(members.json()["members"])
     uncertainty = 0.55
     reevaluate_rate = 0.55
     unit = 0.55
