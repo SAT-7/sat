@@ -4,6 +4,7 @@ from os.path import join, dirname
 from flask import Blueprint, render_template, Flask, redirect, url_for, request
 from flask_dance.contrib.github import make_github_blueprint, github
 from flask_caching import Cache
+import json
 
 config = {
     "DEBUG": True,
@@ -21,7 +22,7 @@ app.secret_key = os.urandom(24)
 app.config["GITHUB_OAUTH_CLIENT_ID"] = os.environ.get("GITHUB_OAUTH_CLIENT_ID")
 app.config["GITHUB_OAUTH_CLIENT_SECRET"] = os.environ.get("GITHUB_OAUTH_CLIENT_SECRET")
 #github_bp = make_github_blueprint(scope='read:org',redirect_to='github.authorized')
-github_bp = make_github_blueprint(scope='admin:org',redirect_url='https://sustainabilityauditingtool.herokuapp.com/connect')
+github_bp = make_github_blueprint(scope='read:org',redirect_url='https://sustainabilityauditingtool.herokuapp.com/connect')
 app.register_blueprint(github_bp, url_prefix="/login")
 
 @app.route("/connect")
@@ -56,7 +57,7 @@ def models():
         chosen_org = cache.get("cached_org")
     members_resp = github.get("/orgs/SAT-7/members")
     assert members_resp.ok
-    members = [m for m in members_resp.json()]
+    members = json.dumps(members_resp, separators=(',', ':'))
     #if len(members.json()) > 0:
     #    num_agents = len(members.json())
     uncertainty = 0.55
