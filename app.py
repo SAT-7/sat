@@ -45,10 +45,10 @@ def repo():
 def models():
     if request.method == 'POST':
         chosen_org = request.form['orgform']
-        cache.set(cached_org=chosen_org)
+        cache.set("cached_org",chosen_org)
     else:
         chosen_org = request.args.get('orgform')
-        cache.set(cached_org=chosen_org)
+        cache.set("cached_org",chosen_org)
     num_agents = 55
     #org_json = cache.get("gh_json")
     chosen_org = "SAT-7"
