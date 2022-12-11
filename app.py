@@ -20,7 +20,7 @@ cache = Cache(app)
 app.secret_key = os.urandom(24)
 app.config["GITHUB_OAUTH_CLIENT_ID"] = os.environ.get("GITHUB_OAUTH_CLIENT_ID")
 app.config["GITHUB_OAUTH_CLIENT_SECRET"] = os.environ.get("GITHUB_OAUTH_CLIENT_SECRET")
-github_bp = make_github_blueprint(scope='read:org',redirect_to='/login/github/authorized')
+github_bp = make_github_blueprint(scope='read:org',redirect_uri='https://sustainabilityauditingtool.herokuapp.com/login/github/authorized')
 app.register_blueprint(github_bp, url_prefix="/login")
 
 @app.route("/login/github/authorized")
