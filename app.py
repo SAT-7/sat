@@ -29,17 +29,16 @@ app.register_blueprint(github_bp, url_prefix="/login")
 
 @app.route("/connect")
 def connect():
-    #if not github.authorized:
-    #    return redirect(url_for("github.login"))
+    if not github.authorized:
+        return redirect(url_for("github.login"))
     #resp = github.get("/user")
     #resp = github.get("/user/repos")
-    #resp = github.get("/user/memberships/orgs")
-    #assert resp.ok
-    #cache.set("gh_json",resp.json())
+    resp = github.get("/user/memberships/orgs")
+    assert resp.ok
+    cache.set("gh_json",resp.json())
     #return "You are @{login} on GitHub".format(login=resp.json()["login"])
     #return render_template("githubauth.html",gh_json=cache.get("gh_json",resp.json()))
-    #return render_template("githubauth.html",gh_json=resp.json())
-    return render_template("githubauth.html",gh_json=samp_json)
+    return render_template("githubauth.html",gh_json=resp.json())
 
 @app.route("/repo")
 def repo():
@@ -56,14 +55,13 @@ def models():
     num_agents = 55
     #org_json = cache.get("gh_json")
     chosen_org = "SAT-7"
-    #if cache.get("cached_org"):
-    #    chosen_org = cache.get("cached_org")
-    #members_resp = github.get("/orgs/SAT-7/members")
-    #assert members_resp.ok
-    #members = json.dumps(members_resp.json(), separators=(',', ':'))
-    #if len(members_resp.json()) > 0:
-    #    num_agents = len(members_resp.json())
-    members = samp_json
+    if cache.get("cached_org"):
+        chosen_org = cache.get("cached_org")
+    members_resp = github.get("/orgs/SAT-7/members")
+    assert members_resp.ok
+    members = json.dumps(members_resp.json(), separators=(',', ':'))
+    if len(members) > 0:
+        num_agents = len(members)
     uncertainty = 0.55
     reevaluate_rate = 0.55
     unit = 0.55
