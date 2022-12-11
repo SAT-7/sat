@@ -60,8 +60,8 @@ def models():
     members_resp = github.get("/orgs/SAT-7/members")
     assert members_resp.ok
     members = json.dumps(members_resp.json(), separators=(',', ':'))
-    if len(members) > 0:
-        num_agents = len(members)
+    #if len(members) > 0:
+    #    num_agents = len(members)
     uncertainty = 0.55
     reevaluate_rate = 0.55
     unit = 0.55
