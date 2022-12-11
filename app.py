@@ -56,7 +56,7 @@ def models():
         chosen_org = cache.get("cached_org")
     members_resp = github.get("/orgs/SAT-7/members")
     assert members_resp.ok
-    members = "Members: " + ", ".join([m['SAT-7'] for m in members_resp.json()])
+    members = [m for m in members_resp.json()]
     #if len(members.json()) > 0:
     #    num_agents = len(members.json())
     uncertainty = 0.55
