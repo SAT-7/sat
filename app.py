@@ -85,7 +85,7 @@ def models():
         count += 1
     with open('website/static/models/currentmodel.html', 'w') as file:
         file.writelines(lines)
-    return render_template("models.html",gh_json=members.json()['items'])
+    return render_template("models.html",gh_json=members.json())
     
 def unused_code():
     entry = 0
