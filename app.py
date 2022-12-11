@@ -23,7 +23,7 @@ app.config["GITHUB_OAUTH_CLIENT_SECRET"] = os.environ.get("GITHUB_OAUTH_CLIENT_S
 github_bp = make_github_blueprint(scope='read:org')
 app.register_blueprint(github_bp, url_prefix="/login")
 
-@app.route("/connect")
+@app.route("/connect/")
 def connect():
     if not github.authorized:
         return redirect(url_for("github.login"))
@@ -44,7 +44,7 @@ def unused():
     return render_template("githubauth.html",gh_json=resp.json())
 
 
-@app.route('/models')
+@app.route('/models/')
 def models():
     num_agents = 55
     uncertainty = 0.55
