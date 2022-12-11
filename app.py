@@ -32,7 +32,9 @@ def connect():
     resp = github.get("/user/memberships/orgs")
     assert resp.ok
     cache.set("gh_json",resp.json())
-    #return "You are @{login} on GitHub".format(login=resp.json()["login"])
+    return "You are @{login} on GitHub".format(login=resp.json()["login"])
+
+def unused():    
     entry = 0
     for org in resp:
         members = github.get("/orgs/{org['login']}/members")
