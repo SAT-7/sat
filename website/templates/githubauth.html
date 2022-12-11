@@ -18,6 +18,11 @@
                         {% for org in gh_json %}
                             <option value='{{"{orgname}".format(orgname=org["organization"]["login"])}}' selected="selected">{{"{orgname}".format(orgname=org['organization']['login'])}}</option>
                         {% endfor %}
+                        {% block javascript %}
+                            if request.method == 'POST':
+                                    # get the selected value from the HTML select form
+                                    cache.set(cached_org=request.form['orgform'])
+                        {% endblock %}
                         </select>
                         <input type="submit" value="Select">
                     </form> 
