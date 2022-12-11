@@ -26,9 +26,7 @@
       </div>
    </div>
    <div class="model">
-      {{"{chosenorg}".format(chosenorg=request.args.get('org'))}}<br>
       <iframe src="{{ url_for('static', filename='models/currentmodel.html') }}" id="model" name="model" width="100%" height="100%" ></iframe>
-      {{"Full JSON: {gh_json}".format(gh_json=gh_json)}}
    </div>
 </div>
 

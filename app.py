@@ -40,6 +40,11 @@ def connect():
 @app.route('/models')
 def models():
     num_agents = 55
+    org_json = cache.get("gh_json")
+    for org in org_json:
+        members = github.get("/orgs/{org['login']}/members")
+        if len(members.json()) > 0:
+            num_agents = len(members.json())
     uncertainty = 0.55
     reevaluate_rate = 0.55
     unit = 0.55
@@ -66,7 +71,7 @@ def models():
         count += 1
     with open('website/static/models/currentmodel.html', 'w') as file:
         file.writelines(lines)
-    return render_template("models.html",gh_json=cache.get("gh_json"))
+    return render_template("models.html")
     
 def unused_code():
     entry = 0
