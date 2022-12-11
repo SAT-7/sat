@@ -54,7 +54,7 @@ def models():
     chosen_org = "SAT-7"
     if cache.get("cached_org"):
         chosen_org = cache.get("cached_org")
-    get_request = "/orgs/SAT-7"
+    get_request = "/orgs/SAT-7/members"
     members = github.get(get_request)
     assert members.ok
     if len(members.json()) > 0:
@@ -85,7 +85,7 @@ def models():
         count += 1
     with open('website/static/models/currentmodel.html', 'w') as file:
         file.writelines(lines)
-    return render_template("models.html",gh_json=members.json()['members'])
+    return render_template("models.html",gh_json=members.json()['items'])
     
 def unused_code():
     entry = 0
