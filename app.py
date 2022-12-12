@@ -17,7 +17,8 @@ GITHUB_CLIENT_ID = os.environ.get("GITHUB_OAUTH_CLIENT_ID")
 GITHUB_CLIENT_SECRET = os.environ.get("GITHUB_OAUTH_CLIENT_SECRET")
 
 # setup flask
-app = create_app()
+#app = create_app() #this line is necessary to get to the "real site"
+app = Flask(__name__)
 app.config.from_object(__name__)
 
 # setup github-flask
@@ -47,6 +48,7 @@ class User(Base):
     def __init__(self, github_access_token):
         self.github_access_token = github_access_token
 
+init_db()
 
 @app.before_request
 def before_request():
@@ -134,5 +136,5 @@ def repo():
 
 
 if __name__ == '__main__':
-    init_db()
+    #init_db()
     app.run(debug=True)
