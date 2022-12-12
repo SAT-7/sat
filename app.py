@@ -6,6 +6,7 @@ from flask_dance.contrib.github import make_github_blueprint, github
 from flask_caching import Cache
 import json
 
+# configuration for cache
 config = {
     "DEBUG": True,
     "CACHE_TYPE": "FileSystemCache",
@@ -13,37 +14,45 @@ config = {
     "CACHE_DEFAULT_TIMEOUT": 300
 }
 
+# create the app, see __init__.py
 app = create_app()
 
+# using the cache config, tie it to app and instantiate cache object
 app.config.from_mapping(config)
 cache = Cache(app)
 
+# create secret values and blueprint
 app.secret_key = os.urandom(24)
 app.config["GITHUB_OAUTH_CLIENT_ID"] = os.environ.get("GITHUB_OAUTH_CLIENT_ID")
 app.config["GITHUB_OAUTH_CLIENT_SECRET"] = os.environ.get("GITHUB_OAUTH_CLIENT_SECRET")
 #github_bp = make_github_blueprint(scope='read:org',redirect_to='github.authorized')
+# note that we need both org and user scopes, in order to read orgs and see their members
 github_bp = make_github_blueprint(scope='read:org,read:user',redirect_url='https://sustainabilityauditingtool.herokuapp.com/connect')
 app.register_blueprint(github_bp, url_prefix="/login")
 
+# connect is the page through which the oauth is performed
 @app.route("/connect")
 def connect():
+    # if github is not already authorized, go to the login page
     if not github.authorized:
         return redirect(url_for("github.login"))
-    #resp = github.get("/user")
-    #resp = github.get("/user/repos")
+    # get json from the github api for the authenticated user
     resp = github.get("/user/memberships/orgs")
+    # make sure it came through right
     assert resp.ok
+    # stick the json in the cache for later
     cache.set("gh_json",resp.json())
-    #return "You are @{login} on GitHub".format(login=resp.json()["login"])
-    #return render_template("githubauth.html",gh_json=cache.get("gh_json",resp.json()))
     return render_template("githubauth.html",gh_json=resp.json())
 
+# later function for choosing a repo once an organization has been chosen
 @app.route("/repo")
 def repo():
     return render_template("repochoose.html",gh_json=cache.get("gh_json"))
-    
+
+# models is the main page, fed by a get request for initial values    
 @app.route('/models',methods = ['POST', 'GET'])
 def models():
+    # get the organization from githubauth template html
     if request.method == 'POST':
         chosen_org = request.form['orgform']
         cache.set("cached_org",chosen_org)
@@ -51,7 +60,6 @@ def models():
         chosen_org = request.args.get('orgform')
         cache.set("cached_org",chosen_org)
     num_agents = 5
-    #org_json = cache.get("gh_json")
     chosen_org = "SAT-7"
     if cache.get("cached_org"):
         chosen_org = cache.get("cached_org")
@@ -64,7 +72,8 @@ def models():
     write_new_html(model_site)
     write_new_html(model_site+1,filename="comparemodel")
     return render_template("models.html",gh_json=members)
-    
+
+# helper function to inject variables into Netlogo model HTML    
 def write_new_html(site,num_agents=5,filename="currentmodel"):
     uncertainty = 0.55
     reevaluate_rate = 0.55
@@ -92,7 +101,6 @@ def write_new_html(site,num_agents=5,filename="currentmodel"):
         count += 1
     with open('website/static/models/'+filename+'.html', 'w') as file:
         file.writelines(lines)
-app.jinja_env.globals.update(write_new_html=write_new_html)
 
 def unused_code():
     entry = 0
