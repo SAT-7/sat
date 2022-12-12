@@ -27,7 +27,7 @@ app.config["GITHUB_OAUTH_CLIENT_ID"] = os.environ.get("GITHUB_OAUTH_CLIENT_ID")
 app.config["GITHUB_OAUTH_CLIENT_SECRET"] = os.environ.get("GITHUB_OAUTH_CLIENT_SECRET")
 #github_bp = make_github_blueprint(scope='read:org',redirect_to='github.authorized')
 # note that we need both org and user scopes, in order to read orgs and see their members
-github_bp = make_github_blueprint(scope='read:org,read:user',redirect_url="https://sustainabilityauditingtool.herokuapp.com/connect")
+github_bp = make_github_blueprint(scope='read:org,read:user',authorized_url="http://sustainabilityauditingtool.herokuapp.com/login/github/authorized",login_url="http://sustainabilityauditingtool.herokuapp.com/login/github",redirect_url="https://sustainabilityauditingtool.herokuapp.com/connect")
 app.register_blueprint(github_bp, url_prefix="/login")
 
 # connect is the page through which the oauth is performed
