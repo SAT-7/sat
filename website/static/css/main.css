@@ -13,7 +13,7 @@
     color: #ffffff;
 }
 
-.model-comparison {
+#model-comparison {
     visibility: hidden;
 }
 .model-comparison iframe {
