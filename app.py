@@ -99,10 +99,10 @@ def authorized(access_token):
 
     # Not necessary to get these details here
     # but it helps humans to identify users easily.
-    g.user = user
-    github_user = github.get('/user')
-    user.github_id = github_user['id']
-    user.github_login = github_user['login']
+    #g.user = user
+    #github_user = github.get('/user')
+    #user.github_id = github_user['id']
+    #user.github_login = github_user['login']
 
     db_session.commit()
 
