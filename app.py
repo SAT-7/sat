@@ -66,8 +66,7 @@ def after_request(response):
 @app.route('/')
 def index():
     if g.user:
-        t = 'Hello! %s <a href="{{ url_for("user") }}">Get user</a> ' \
-            '<a href="{{ url_for("repo") }}">Get repo</a> ' \
+        t = 'Hello! %s <a href="{{ url_for("repo") }}">Get repo</a> ' \
             '<a href="{{ url_for("logout") }}">Logout</a>'
         t %= g.user.github_login
     else:
