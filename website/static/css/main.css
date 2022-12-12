@@ -12,3 +12,7 @@
     background-color: navy;
     color: #ffffff;
 }
+
+.model-comparison {
+    visibility: hidden;
+}

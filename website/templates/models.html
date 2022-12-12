@@ -9,6 +9,14 @@
    }
 </script>
 <script>
+   function showCompare() {
+      var frame = document.getElementById("model-comporison");
+      if (frame.style.visibility == 'hidden') {
+         frame.style.visibility = 'visible';
+      } else {
+         frame.style.visibility = 'hidden';
+      }
+   }
    function changemodel(x) {
      var mod = document.getElementById("model");
      switch(x) {
@@ -27,12 +35,12 @@
      switch(x) {
          case 1:
          mod.src = "{{ url_for('static', filename='models/comparemodel.html') }}";
-         mod.title = "Cooperation Modeln";
+         mod.title = "Cooperation Model";
          break;
 
          case 2:
          mod.src = "{{ url_for('static', filename='models/currentmodel.html') }}";
-         mod.title = "Oversimplificatio";
+         mod.title = "Oversimplification";
          break;
      }
    }
@@ -49,6 +57,9 @@
             <option onclick ="changemodel(1)">Oversimplification</option>
             <option onclick ="changemodel(2)">Cooperation Model</option>
          </select>
+      </div>
+      <div class="col-lg-4">
+         <a id="compare" onclick="showCompare();"><button class="btn btn-lg btn-outline-light" id="button-compare" type="button">Compare Model</button></a>
       </div>
    </div>
    <div class="row">
