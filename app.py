@@ -96,6 +96,7 @@ def authorized(access_token):
         db_session.add(user)
 
     user.github_access_token = access_token
+    g.user = user
 
     # Not necessary to get these details here
     # but it helps humans to identify users easily.
@@ -124,12 +125,12 @@ def logout():
     session.pop('user_id', None)
     return redirect(url_for('index'))
 
+# this throws a bad credentials error 401
+#@app.route('/user')
+#def user():
+#    return jsonify(github.get('/user'))
 
-@app.route('/user')
-def user():
-    return jsonify(github.get('/user'))
-
-
+# this works
 @app.route('/repo')
 def repo():
     return jsonify(github.get('/repos/cenkalti/github-flask'))
