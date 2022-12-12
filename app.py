@@ -59,18 +59,21 @@ def models():
     else:
         chosen_org = request.args.get('orgform')
         cache.set("cached_org",chosen_org)
+
     num_agents = 5
     chosen_org = "SAT-7"
     if cache.get("cached_org"):
         chosen_org = cache.get("cached_org")
+
     members_resp = github.get("/orgs/SAT-7/members")
     assert members_resp.ok
     members = json.dumps(members_resp.json(), separators=(',', ':'))
+
     if len(members) > 0:
         num_agents = len(members)
-    model_site = 0
-    write_new_html(model_site)
-    write_new_html(model_site+1,filename="comparemodel")
+
+    write_new_html(0)
+    write_new_html(1,filename="comparemodel")
     return render_template("models.html",gh_json=members)
 
 # helper function to inject variables into Netlogo model HTML    
