@@ -1,14 +1,14 @@
 {% extends "connected.html" %} {% block title %}Models{% endblock %} {% block content
 %}
 <script>
+   // function for the save button to get the contents of the iframe
    function getIframeContent(frameID) {
       var frameObj = document.getElementById(frameID);
       var frameContent = frameObj.contentWindow.document.body.innerHTML;
       var element = document.getElementById("save");
       element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(frameContent));
    }
-</script>
-<script>
+   // function which switches on and off the compare model
    function showCompare() {
       var frame = document.getElementById("model-comparison");
       if (frame.style.visibility == 'hidden') {
@@ -17,6 +17,7 @@
          frame.style.visibility = 'hidden';
       }
    }
+   // function to change the contents of the iframes based on a selection
    function changemodel(x) {
      var mod = document.getElementById("model");
      switch(x) {
@@ -47,7 +48,7 @@
 </script>
 <br><br>
 <div style="position:relative; margin-top:4em">
-   <!-- Models-->
+   <!-- Buttons-->
    <div class="row">
       <div class="col-lg-4">
          <a id="save" onclick="getIframeContent('model');" download="model.html"><button class="btn btn-lg btn-outline-light" id="button-search" type="button">Save Model</button></a>
@@ -62,6 +63,7 @@
          <a id="compare" onclick="showCompare();"><button class="btn btn-lg btn-outline-light" id="button-compare" type="button">Compare Model</button></a>
       </div>
    </div>
+   <!-- Models-->
    <div class="row">
       <div class="col-lg-6">
          <div class="model"> 
