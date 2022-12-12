@@ -12,8 +12,8 @@ SECRET_KEY = os.urandom(24)
 DEBUG = True
 
 # Set these values
-GITHUB_OAUTH_CLIENT_ID = os.environ.get("GITHUB_OAUTH_CLIENT_ID")
-GITHUB_OAUTH_CLIENT_SECRET = os.environ.get("GITHUB_OAUTH_CLIENT_SECRET")
+GITHUB_CLIENT_ID = os.environ.get("GITHUB_OAUTH_CLIENT_ID")
+GITHUB_CLIENT_SECRET = os.environ.get("GITHUB_OAUTH_CLIENT_SECRET")
 
 # setup flask
 app = Flask(__name__)
