@@ -1,118 +1,136 @@
-from website import create_app
 import os
-from os.path import join, dirname
-from flask import Blueprint, render_template, Flask, redirect, url_for, request
-from flask_dance.contrib.github import make_github_blueprint, github
-from flask_caching import Cache
-import json
+from flask import Flask, request, g, session, redirect, url_for
+from flask import render_template_string, jsonify
+from flask_github import GitHub
 
-# configuration for cache
-config = {
-    "DEBUG": True,
-    "CACHE_TYPE": "FileSystemCache",
-    "CACHE_DIR": "cache/",
-    "CACHE_DEFAULT_TIMEOUT": 300
-}
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
-# create the app, see __init__.py
-app = create_app()
+DATABASE_URI = 'sqlite:////tmp/github-flask.db'
+SECRET_KEY = os.urandom(24)
+DEBUG = True
 
-# using the cache config, tie it to app and instantiate cache object
-app.config.from_mapping(config)
-cache = Cache(app)
+# Set these values
+GITHUB_OAUTH_CLIENT_ID = os.environ.get("GITHUB_OAUTH_CLIENT_ID")
+GITHUB_OAUTH_CLIENT_SECRET = os.environ.get("GITHUB_OAUTH_CLIENT_SECRET")
 
-# create secret values and blueprint
-app.secret_key = os.urandom(24)
-app.config["GITHUB_OAUTH_CLIENT_ID"] = os.environ.get("GITHUB_OAUTH_CLIENT_ID")
-app.config["GITHUB_OAUTH_CLIENT_SECRET"] = os.environ.get("GITHUB_OAUTH_CLIENT_SECRET")
-#github_bp = make_github_blueprint(scope='read:org',redirect_to='github.authorized')
-# note that we need both org and user scopes, in order to read orgs and see their members
-github_bp = make_github_blueprint(scope='read:org,read:user',redirect_url='https://sustainabilityauditingtool.herokuapp.com/connect')
-app.register_blueprint(github_bp, url_prefix="/login")
+# setup flask
+app = Flask(__name__)
+app.config.from_object(__name__)
 
-# connect is the page through which the oauth is performed
-@app.route("/connect")
-def connect():
-    # if github is not already authorized, go to the login page
-    if not github.authorized:
-        return redirect(url_for("github.login"))
-    # get json from the github api for the authenticated user
-    resp = github.get("/user/memberships/orgs")
-    # make sure it came through right
-    assert resp.ok
-    # stick the json in the cache for later
-    cache.set("gh_json",resp.json())
-    return render_template("githubauth.html",gh_json=resp.json())
+# setup github-flask
+github = GitHub(app)
 
-# later function for choosing a repo once an organization has been chosen
-@app.route("/repo")
-def repo():
-    return render_template("repochoose.html",gh_json=cache.get("gh_json"))
+# setup sqlalchemy
+engine = create_engine(app.config['DATABASE_URI'])
+db_session = scoped_session(sessionmaker(autocommit=False,
+                                         autoflush=False,
+                                         bind=engine))
+Base = declarative_base()
+Base.query = db_session.query_property()
 
-# models is the main page, fed by a get request for initial values    
-@app.route('/models',methods = ['POST', 'GET'])
-def models():
-    # get the organization from githubauth template html
-    if request.method == 'POST':
-        chosen_org = request.form['orgform']
-        cache.set("cached_org",chosen_org)
+
+def init_db():
+    Base.metadata.create_all(bind=engine)
+
+
+class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True)
+    github_access_token = Column(String(255))
+    github_id = Column(Integer)
+    github_login = Column(String(255))
+
+    def __init__(self, github_access_token):
+        self.github_access_token = github_access_token
+
+
+@app.before_request
+def before_request():
+    g.user = None
+    if 'user_id' in session:
+        g.user = User.query.get(session['user_id'])
+
+
+@app.after_request
+def after_request(response):
+    db_session.remove()
+    return response
+
+
+@app.route('/')
+def index():
+    if g.user:
+        t = 'Hello! %s <a href="{{ url_for("user") }}">Get user</a> ' \
+            '<a href="{{ url_for("repo") }}">Get repo</a> ' \
+            '<a href="{{ url_for("logout") }}">Logout</a>'
+        t %= g.user.github_login
     else:
-        chosen_org = request.args.get('orgform')
-        cache.set("cached_org",chosen_org)
+        t = 'Hello! <a href="{{ url_for("login") }}">Login</a>'
 
-    num_agents = 5
-    chosen_org = "SAT-7"
-    if cache.get("cached_org"):
-        chosen_org = cache.get("cached_org")
+    return render_template_string(t)
 
-    members_resp = github.get("/orgs/SAT-7/members")
-    assert members_resp.ok
-    members = json.dumps(members_resp.json(), separators=(',', ':'))
 
-    if len(members) > 0:
-        num_agents = len(members)
+@github.access_token_getter
+def token_getter():
+    user = g.user
+    if user is not None:
+        return user.github_access_token
 
-    write_new_html(0)
-    write_new_html(1,filename="comparemodel")
-    return render_template("models.html",gh_json=members)
 
-# helper function to inject variables into Netlogo model HTML    
-def write_new_html(site,num_agents=5,filename="currentmodel"):
-    uncertainty = 0.55
-    reevaluate_rate = 0.55
-    unit = 0.55
-    horizon = 5.5
-    max_noise = 55.0
-    sites = ['anatomyofamodel.html','osdcCoOpStripped.html']
-    with open('website/static/models/'+sites[site],'r') as file:
-        lines = file.readlines()
-    #print(lines)
-    count = 0
-    for line in lines:
-        if line.__contains__("-num_agents-"):
-            lines[count] = str(num_agents)+'\n'
-        if line.__contains__("-uncertainty-"):
-            lines[count] = str(uncertainty)+'\n'
-        if line.__contains__("-reevaluate_rate-"):
-            lines[count] = str(reevaluate_rate)+'\n'
-        if line.__contains__("-unit-"):
-            lines[count] = str(unit)+'\n'
-        if line.__contains__("-horizon-"):
-            lines[count] = str(horizon)+'\n'
-        if line.__contains__("-max_noise-"):
-            lines[count] = str(max_noise)+'\n'
-        count += 1
-    with open('website/static/models/'+filename+'.html', 'w') as file:
-        file.writelines(lines)
+@app.route('/github-callback')
+@github.authorized_handler
+def authorized(access_token):
+    next_url = request.args.get('next') or url_for('index')
+    if access_token is None:
+        return redirect(next_url)
 
-def unused_code():
-    entry = 0
-    #for org in resp:
-    #    members = github.get("/orgs/{org['login']}/members")
-    #    #print(members)
-    #    cache.set("{mem_count[entry]}",len(members.json()))
-    #    entry += 1
-    #return render_template("githubauth.html",gh_json=resp.json())
+    user = User.query.filter_by(github_access_token=access_token).first()
+    if user is None:
+        user = User(access_token)
+        db_session.add(user)
 
-if __name__ == "__main__":
+    user.github_access_token = access_token
+
+    # Not necessary to get these details here
+    # but it helps humans to identify users easily.
+    g.user = user
+    github_user = github.get('/user')
+    user.github_id = github_user['id']
+    user.github_login = github_user['login']
+
+    db_session.commit()
+
+    session['user_id'] = user.id
+    return redirect(next_url)
+
+
+@app.route('/login')
+def login():
+    if session.get('user_id', None) is None:
+        return github.authorize()
+    else:
+        return 'Already logged in'
+
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    return redirect(url_for('index'))
+
+
+@app.route('/user')
+def user():
+    return jsonify(github.get('/user'))
+
+
+@app.route('/repo')
+def repo():
+    return jsonify(github.get('/repos/cenkalti/github-flask'))
+
+
+if __name__ == '__main__':
+    init_db()
     app.run(debug=True)
