@@ -1,4 +1,5 @@
 import os
+from website import create_app
 from flask import Flask, request, g, session, redirect, url_for
 from flask import render_template_string, jsonify
 from flask_github import GitHub
@@ -7,7 +8,7 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-DATABASE_URI = 'sqlite:////tmp/github-flask.db'
+DATABASE_URI = 'sqlite:////github-flask.db'
 SECRET_KEY = os.urandom(24)
 DEBUG = True
 
@@ -16,7 +17,7 @@ GITHUB_CLIENT_ID = os.environ.get("GITHUB_OAUTH_CLIENT_ID")
 GITHUB_CLIENT_SECRET = os.environ.get("GITHUB_OAUTH_CLIENT_SECRET")
 
 # setup flask
-app = Flask(__name__)
+app = create_app()
 app.config.from_object(__name__)
 
 # setup github-flask
@@ -109,8 +110,9 @@ def authorized(access_token):
 
 @app.route('/login')
 def login():
+    redirect_uri="https://sustainabilityauditingtool.herokuapp.com/github-callback"
     if session.get('user_id', None) is None:
-        return github.authorize(scope="org,repo,user")
+        return github.authorize(scope="org,repo,user",redirect_uri=redirect_uri)
     else:
         return 'Already logged in'
 
