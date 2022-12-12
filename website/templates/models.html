@@ -22,6 +22,19 @@
          mod.title = "Cooperation Model";
          break;
      }
+
+     var mod = document.getElementById("model-comparison");
+     switch(x) {
+         case 1:
+         mod.src = "{{ url_for('static', filename='models/comparemodel.html') }}";
+         mod.title = "Cooperation Modeln";
+         break;
+
+         case 2:
+         mod.src = "{{ url_for('static', filename='models/currentmodel.html') }}";
+         mod.title = "Oversimplificatio";
+         break;
+     }
    }
 </script>
 <br><br>
@@ -39,11 +52,16 @@
       </div>
    </div>
    <div class="row">
-      <div class="col-lg-12">
+      <div class="col-lg-6">
          <div class="model"> 
             <!--{{"{chosenorg}".format(chosenorg=request.args.get('org'))}}<br>-->
             <iframe src="{{ url_for('static', filename='models/currentmodel.html') }}" id="model" name="model" width="100%" height="100%" ></iframe>
             <!--{{"Full JSON: {gh_json}".format(gh_json=gh_json)}}-->
+         </div>
+      </div>
+      <div class="col-lg-6">
+         <div class="model-comparison"> 
+            <iframe src="{{ url_for('static', filename='models/currentmodel.html') }}" id="model-comparison" name="model-comparison" width="100%" height="100%" ></iframe>
          </div>
       </div>
    </div>
