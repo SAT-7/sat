@@ -5,6 +5,7 @@ from flask import Blueprint, render_template, Flask, redirect, url_for, request
 from flask_dance.contrib.github import make_github_blueprint, github
 from flask_caching import Cache
 import json
+from dotenv import load_dotenv
 
 # configuration for cache
 config = {
@@ -20,6 +21,8 @@ app = create_app()
 # using the cache config, tie it to app and instantiate cache object
 app.config.from_mapping(config)
 cache = Cache(app)
+
+load_dotenv()
 
 # create secret values and blueprint
 app.secret_key = os.urandom(24)
@@ -104,15 +107,6 @@ def write_new_html(site,num_agents=5,filename="currentmodel"):
         count += 1
     with open('website/static/models/'+filename+'.html', 'w') as file:
         file.writelines(lines)
-
-def unused_code():
-    entry = 0
-    #for org in resp:
-    #    members = github.get("/orgs/{org['login']}/members")
-    #    #print(members)
-    #    cache.set("{mem_count[entry]}",len(members.json()))
-    #    entry += 1
-    #return render_template("githubauth.html",gh_json=resp.json())
 
 if __name__ == "__main__":
     app.run(debug=True)

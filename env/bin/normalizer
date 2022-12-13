@@ -1,4 +1,4 @@
-#!/home/whatcoloris/sat/env/bin/python3
+#!/home/darkshark/sat/env/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

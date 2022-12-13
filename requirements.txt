@@ -8,3 +8,4 @@ Werkzeug==2.2.2
 zipp==3.9.0
 Flask-Dance
 Flask-Caching
+python-dotenv

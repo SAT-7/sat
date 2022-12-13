@@ -57,7 +57,13 @@ If you're feeling REALLY good about what you did, submit a Pull Request and we'l
 
 When your changes get pulled into `main` - they're deployed to our Heroku app at [https://sustainabilityauditingtool.herokuapp.com](https://sustainabilityauditingtool.herokuapp.com).
 
-As we get closer to the end of the project, we'll transition to our website/domain/whathaveyou.
+### Local Deployment
+
+We have another GitHub OAuth setup which uses the correct addresses for local development. This is setup with the `main-local` branch, and uses the python-dotenv package to maintain environment variables correctly.
+
+The connection between `main-local` and `main` must be maintained manually at the moment. Be careful.
+
+A helpful tip might be to make sure that python3-virtualenv is installed and to run `source env/bin/activate` from the repo folder so that the correct environment is loaded.
 
 ### Troubleshooting
 
